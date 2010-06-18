@@ -10,7 +10,7 @@ $data = SDBM.open("urlnotes.dbm")
 helpers do
   def protected!
     unless authorized?
-      response['WWW-Authenticate'] = %(Basic realm="Testing HTTP Auth")
+      response['WWW-Authenticate'] = %(Basic realm="URL Notes")
       throw(:halt, [401, "Not authorized\n"])
     end
   end
@@ -22,36 +22,40 @@ helpers do
 
   # ugly, but honest
   def add_css(html)
-    css = <<END_OF_CSS
-<style type="text/css">
-#overlay { position: fixed; left: 0; top: 0; z-index: 100;
-           background-color: black; opacity:0.7; filter:alpha(opacity=70);
-           height: 100%; width: 100%; color: #fff; padding: 15px;
-}
-#trans-form { width: 50%; float: right; }
-</style>
-END_OF_CSS
+    css = <<-END_OF_CSS
+      <style type="text/css">
+        #overlay { position: fixed; left: 50%; top: 0; z-index: 100;
+                   background-color: black; opacity:0.8; 
+                   filter:alpha(opacity=80); height: 100%; 
+                   width: 50%; color: #fff; padding: 15px;
+                   float: right;
+        }
+        #trans-form { padding: 20px;}
+      </style>
+    END_OF_CSS
     html.sub(/<\/head>/i, "#{css}</head>")
   end
 
-  # see above, RE: ugly
+  # honest, but ugly
   def add_div(html, url)
     text = $data[url] unless $data[url].nil?
-    div = <<END_OF_DIV
-<div id="overlay">
-  <div id="trans-form">
-    <h1>Translation Station</h1>
-    <form action="/post">
-      <textarea cols="50" rows="20" name="text">#{text}</textarea>
-      <input type="hidden" name="url" value="#{url}"></input>
-      <input type="submit"></input>
-    </form>
-  </div>
-</div>
-END_OF_DIV
-     html.sub(/<\/body>/i, "#{div}</body>")
+    div = <<-END_OF_DIV
+    <div id="overlay">
+      <div id="trans-form">
+        <h1>Translation Station</h1>
+        <form action="/post">
+          <textarea cols="50" rows="20" name="text">#{text}</textarea>
+          <input type="hidden" name="url" value="#{url}"></input>
+          <div><input type="submit"></input></div>
+        </form>
+      </div>
+    </div>
+    END_OF_DIV
+    html.sub(/<\/body>/i, "#{div}</body>")
   end
 
+  # the general plan of attack: grab the html from the url,
+  # add in the overlay with the form, send it back to the user
   def generate_html(url)
     out = ''
     open(url) {|f| out = f.read}
