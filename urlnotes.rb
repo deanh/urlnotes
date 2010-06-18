@@ -8,8 +8,10 @@ require 'sdbm'
 $data = SDBM.open("urlnotes.dbm")
 
 # TODO: this is wrong. i'm not sure how to handle the char encoding
+# it needs to be pulled from the read doc. the below handles the 
+# ruby-list case
 before do
-  content_type 'text/html', :charset => 'utf-8'
+  content_type 'text/html', :charset => 'euc-jp'
 end
 
 helpers do
