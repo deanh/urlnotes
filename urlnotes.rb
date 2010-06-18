@@ -7,6 +7,11 @@ require 'sdbm'
 # keys and the notes about the URLs as values
 $data = SDBM.open("urlnotes.dbm")
 
+# TODO: this is wrong. i'm not sure how to handle the char encoding
+before do
+  content_type 'text/html', :charset => 'utf-8'
+end
+
 helpers do
   def protected!
     unless authorized?
