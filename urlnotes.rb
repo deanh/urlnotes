@@ -63,11 +63,13 @@ helpers do
   end
 end
 
+# display a URL with an overlaid form for notes
 get '/edit' do
   url = params[:url]
   generate_html(url)
 end
 
+# post notes on a page to the db
 get '/post' do
   protected!
   # this data ought to be clensed, but...
