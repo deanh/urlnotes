@@ -2,8 +2,13 @@ URLNOTES: A (less cute now that it's no longer one file) hack to add annotations
 
 Run the sinatra app, then access /edit?url=<some URL you'd like to make notes about> in your favoritely flavored web-browser.
 
-It's now using an sqlite datastore and no longer injecting HTML and CSS, but the URL in the form persists weirdly with the iframe. This shouldn't be an issue if the bookmarklet is the sole interface.
+It's now using an sqlite datastore and no longer injecting HTML and CSS, but the iframe can cause the URL to persist weirdly if you try to navigate around via links inside the iframe. This shouldn't be an issue if you access it via the bookmarklet and then submit from there.
 
-You need to run lib/url_note.rb as a script to build out the tables in your database before this will run.
+You need to run lib/url_note.rb as a script to build out the tables in your database before this will run. rake create_db will do this for you. So,
 
-TODO: Move configs to separate files.
+$ rake create_db && rake test
+$ ruby ./urlnotes.rb &
+
+User credentials are set in config/config.yaml. Here's the bookmarklet I've been using to access it:
+
+  javascript:document.location="http://127.0.0.1:4567/edit?url="+document.URL
