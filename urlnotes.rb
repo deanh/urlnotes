@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'yaml'
 require 'rubygems'
 require 'sinatra'
 require 'active_record'
@@ -9,7 +10,9 @@ configure do
   ActiveRecord::Base.establish_connection(
       :adapter => "sqlite3",
       :database  => "db/notes.db"
-  )  
+  )
+  config = YAML::load(File.open(File.dirname(__FILE__)+"/config/config.yaml"))
+  set :users, config['users']
 end
 
 helpers do
@@ -23,7 +26,7 @@ helpers do
   def authorized?
     @auth ||=  Rack::Auth::Basic::Request.new(request.env)
     @auth.provided? && @auth.basic? && @auth.credentials \
-                    && @auth.credentials == ['admin', 'admin']
+                    && settings.users.include?(@auth.credentials)
   end
 end
 

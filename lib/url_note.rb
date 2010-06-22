@@ -6,7 +6,7 @@ class UrlNote < ActiveRecord::Base
     ActiveRecord::Base.logger = Logger.new(STDERR)
     ActiveRecord::Base.establish_connection(
         :adapter => "sqlite3",
-        :database  => "../db/notes.db"
+        :database  => "#{File.dirname(__FILE__)}/../db/notes.db"
     )
 
     ActiveRecord::Schema.define do
@@ -19,5 +19,6 @@ class UrlNote < ActiveRecord::Base
 end
 
 if __FILE__ == $0
+  puts File.dirname(__FILE__)
   UrlNote.create_db
 end
