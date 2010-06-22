@@ -1,5 +1,9 @@
-URLNOTES: A cute hack to add annotations (like, say, a human translation) to any web page.
+URLNOTES: A (less cute now that it's no longer one file) hack to add annotations to any web page.
 
 Run the sinatra app, then access /edit?url=<some URL you'd like to make notes about> in your favoritely flavored web-browser.
 
-When you post the form the app will store your notes on the page in a DBM on the filesytem for posterity. The DBM is keyed on URLs. Simple, honest, and real.javascript:document.location="http://fi.ero.com:4567/edit?url="+document.URL
+It's now using an sqlite datastore and no longer injecting HTML and CSS, but the URL in the form persists weirdly with the iframe. This shouldn't be an issue if the bookmarklet is the sole interface.
+
+You need to run lib/url_note.rb as a script to build out the tables in your database before this will run.
+
+TODO: Move configs to separate files.
