@@ -1,0 +1,8 @@
+<style type="text/css">
+  #overlay { position: fixed; left: 0; top: 0; z-index: 100;
+             background-color: black; opacity:0.5; 
+             filter:alpha(opacity=50); height: 100%; 
+             width: 100%; color: #fff; padding: 15px;
+  }
+  #trans-form { width: 50%; height: 100%; float: right; padding: 20px;}
+</style>
