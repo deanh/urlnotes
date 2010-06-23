@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'active_record'
+require 'logger'
 
 class UrlNote < ActiveRecord::Base
   def self.create_db

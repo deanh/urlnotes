@@ -11,7 +11,7 @@ configure do
       :adapter => "sqlite3",
       :database  => "db/notes.db"
   )
-  config = YAML::load(File.open(File.dirname(__FILE__)+"/config/config.yaml"))
+  config = YAML.load_file(File.dirname(__FILE__)+"/config/config.yaml")
   set :users, config['users']
 end
 
